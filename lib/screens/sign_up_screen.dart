@@ -75,10 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       bottom: -10,
                       left: 80,
                       child: IconButton(
-                        onPressed: () {
-                          selectImage();
-                          
-                        },
+                        onPressed: selectImage,
                         icon: const Icon(Icons.add_a_photo),
                       ),
                     ),
@@ -141,12 +138,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Text('Don\'t have an account?'),
+                      child: const Text('Don\'t have an account?'),
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
+                      child: const Text(
                         'Sign up',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
