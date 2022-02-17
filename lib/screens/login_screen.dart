@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_clone/resources/auth_methods.dart';
+import 'package:instagram_clone/screens/sign_up_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
+
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -13,13 +20,44 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
-
+  bool _isLoading = false;
   @override
   void dispose() {
     // TODO: implement dispose
     _emailController.dispose();
     _passController.dispose();
     super.dispose();
+  }
+
+  void logInUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().logInUser(
+        email: _emailController.text, password: _passController.text);
+    if (res == "success") {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
+    } else {
+      showSnackBar(context, res);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void navigateToSignUp() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
+      ),
+    );
   }
 
   @override
@@ -56,19 +94,22 @@ class _LogInScreenState extends State<LogInScreen> {
                   isPass: true),
               const SizedBox(height: 12),
               InkWell(
-                onTap: (){},
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Center(
-                    child: Text('Log in'),
-                  ),
-                  decoration: ShapeDecoration(
-                    color: blueColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
+                onTap: logInUser,
+                child: _isLoading
+                    // ignore: prefer_const_constructors
+                    ? CircularProgressIndicator()
+                    : Container(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: const Center(
+                          child: Text('Log in'),
+                        ),
+                        decoration: ShapeDecoration(
+                          color: blueColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
               ),
               Flexible(
                 child: Container(),
@@ -81,11 +122,14 @@ class _LogInScreenState extends State<LogInScreen> {
                     child: Text('Don\'t have an account?'),
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      'Sign up',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: navigateToSignUp,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'Sign up',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   )
                 ],

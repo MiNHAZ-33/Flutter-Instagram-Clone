@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickImage(ImageSource source) async {
-  print('Entered in image picker function');
   final ImagePicker _imagePicker = ImagePicker();
 
   XFile? _file = await _imagePicker.pickImage(source: source);
@@ -9,5 +10,13 @@ pickImage(ImageSource source) async {
   if (_file != null) {
     return await _file.readAsBytes();
   }
-  print('No image is selected'); 
+  print('No image is selected');
+}
+
+showSnackBar(BuildContext context, String content) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(content),
+    ),
+  );
 }
