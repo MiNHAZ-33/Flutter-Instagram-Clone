@@ -60,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (check != 'success') {
       showSnackBar(context, check);
     } else {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
             webScreenLayout: WebScreenLayout(),
