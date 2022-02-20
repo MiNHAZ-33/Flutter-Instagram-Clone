@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -40,13 +41,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: [
-          Text('hey'),
-          Text('hey 1'),
-          Text('hey 3'),
-          Text('hey 4'),
-          Text('hey 6'),
-        ],
+        children: homeScreenItems,
         controller: pageController,
         onPageChanged: onPageChanged,
       ),
